@@ -4,7 +4,6 @@
 
 Gazebo simulation package for virat :)
 
-
 Notes
 -----
 
