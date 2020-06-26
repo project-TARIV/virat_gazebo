@@ -1,0 +1,19 @@
+<launch>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find virat_gazebo)/worlds/igvc_2.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <include file="$(find virat_gazebo)/launch/spawn_virat.launch">
+    <arg name="x" default="-3"/>
+    <arg name="y" default="18"/>
+    <arg name="z" default="0.4"/>
+    <arg name="yaw" default="3"/>
+  </include>
+
+</launch>

@@ -1,0 +1,10 @@
+<launch>
+
+    <arg name="model" default="$(find virat_gazebo)/models/virat/virat.urdf.xacro"/>
+    <arg name="rvizconfig" default="$(find virat_gazebo)/rviz/virat_config.rviz" />
+
+    <param name="robot_description" command="xacro --inorder '$(find virat_gazebo)/models/virat/virat.urdf.xacro'" />
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+
+</launch>

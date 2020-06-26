@@ -1,0 +1,230 @@
+<?xml version='1.0'?>
+<robot name="clueless_virat" 
+    xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="cameraSize" value="0.05"/>
+    <xacro:property name="cameraMass" value="0.01"/>
+
+    <xacro:include filename="$(find virat_gazebo)/models/virat/virat.gazebo.xacro" />
+    <static>false</static>
+
+    <link name="base_footprint"/>
+
+    <joint name="base_joint" type="fixed">
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+        <origin xyz="0.0 0.0 0.010" rpy="0 0 0"/>
+    </joint>
+
+    <link name="base_link">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="1.5"/>
+            <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+        </inertial>
+
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://virat_gazebo/models/virat/meshes/bot2.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://virat_gazebo/models/virat/meshes/bot2.dae"/>
+            </geometry>
+        </collision>
+    </link>
+    <!-- =====================Wheels======================-->
+    <xacro:macro name="wheel" params="prefix reflect">
+        <link name="${prefix}_wheel">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://virat_gazebo/models/virat/meshes/tyre1.dae"/>
+                </geometry>
+            </visual>
+
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.4"/>
+                <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+            </inertial>
+
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://virat_gazebo/models/virat/meshes/tyre1.dae"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint name="${prefix}_wheel_joint" type="continuous">
+            <parent link="base_link"/>
+            <child link="${prefix}_wheel"/>
+            <origin xyz="0 ${reflect*0.323} 0" rpy="0 0 0"/>
+            <axis xyz="0 1 0"/>
+        </joint>
+    </xacro:macro>
+
+    <xacro:wheel prefix="right" reflect="-1" />
+    <xacro:wheel prefix="left" reflect="1" />
+
+    <!-- =====================Castor Wheel======================-->
+    <link name="connect_castor_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 1.57 0"/>
+            <geometry>
+                <cylinder radius="0.006" length="0.48"/>
+            </geometry>
+        </visual>
+
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.5"/>
+            <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+        </inertial>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 1.57 0"/>
+            <geometry>
+                <cylinder radius="0.006" length="0.48"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="castor_connect_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="connect_castor_link"/>
+        <origin xyz="0 0 0 " rpy="0 0 0"/>
+        <axis xyz="0 0 0"/>
+    </joint>
+
+    <link name="castor_link">
+        <visual>
+            <origin xyz="0 0 0 " rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://virat_gazebo/models/virat/meshes/castors1.dae" scale="1.45 1.45 1.45"/>
+            </geometry>
+        </visual>
+
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="1"/>
+            <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+        </inertial>
+
+        <collision>
+            <origin xyz="0 0 0 " rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://virat_gazebo/models/virat/meshes/castors1.dae" scale="1.45 1.45 1.45"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="castor_joint" type="fixed">
+        <parent link="connect_castor_link"/>
+        <child link="castor_link"/>
+        <origin xyz="0.48 0 0 " rpy="0 0 0"/>
+        <axis xyz="0 0 0"/>
+    </joint>
+
+    <!-- =========================Cameras======================================= -->
+
+
+    <xacro:macro name="camera" params="prefix reflect">
+        <link name="${prefix}_camera">
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="${cameraSize} ${cameraSize} ${cameraSize}"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="${cameraSize} ${cameraSize} ${cameraSize}"/>
+                </geometry>
+                <material name="green"/>
+            </visual>
+
+            <inertial>
+                <mass value="${cameraMass}" />
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <box_inertia m="${cameraMass}" x="${cameraSize}" y="${cameraSize}" z="${cameraSize}" />
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+            </inertial>
+        </link>
+
+        <joint name="${prefix}_camera_joint" type="fixed">
+            <axis xyz="0 1 0" />
+            <origin xyz="0.72 ${reflect*0.05} 1.175" rpy="0 0 0"/>
+            <parent link="base_link"/>
+            <child link="${prefix}_camera"/>
+        </joint>
+    </xacro:macro>
+
+    <xacro:camera prefix="right" reflect="-1"/>
+    <xacro:camera prefix="left" reflect="1"/>
+
+    <!-- =========================Laser======================================= -->
+
+    <link name="hokuyo">
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.1 0.1 0.1"/>
+            </geometry>
+        </collision>
+
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://virat_gazebo/models/virat/meshes/sick-lms1xx.dae"/>
+            </geometry>
+        </visual>
+
+        <inertial>
+            <mass value="1e-5" />
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+        </inertial>
+    </link>
+
+    <joint name="hokuyo_joint" type="fixed">
+        <axis xyz="0 1 0" />
+        <origin xyz="0.76 0 0.39" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="hokuyo"/>
+    </joint>
+
+    <!--================================== GPS ================================== -->
+    <link name="gps_link"/>
+
+    <joint name="gps_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="gps_link"/>
+    </joint>
+
+    <!--================================== IMU ================================== -->
+
+    <joint name="imu_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="imu_link"/>
+        <origin xyz="0 0 0.39" rpy="0 0 0"/>
+        <limit effort="2" velocity="5"/>
+    </joint>
+
+    <link name="imu_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.02 0.02 0.02"/>
+            </geometry>
+        </visual>
+    </link>
+
+    
+</robot>
