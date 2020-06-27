@@ -122,22 +122,19 @@
         </sensor>
     </gazebo>
 
-    <gazebo reference="gps_link">
-        <sensor type="gps" name="virat_gps">
-            <plugin name="gps" filename="libhector_gazebo_ros_gps.so">
-                <alwaysOn>1</alwaysOn>
-                <updateRate>10.0</updateRate>
-                <bodyName>gps_link</bodyName>
-                <frameId>gps_link</frameId>
+    <gazebo>
+        <plugin name="gps_controller" filename="libhector_gazebo_ros_gps.so">
+            <alwaysOn>1</alwaysOn>
+            <updateRate>10.0</updateRate>
 
-                <topicName>fix</topicName>
-                <velocityTopicName>fix_velocity</velocityTopicName>
-                <drift>5.0 5.0 5.0</drift>
-                <gaussianNoise>0.1 0.1 0.1</gaussianNoise>
-                <velocityDrift>0 0 0</velocityDrift>
-                <velocityGaussianNoise>0.1 0.1 0.1</velocityGaussianNoise>
-            </plugin>
-        </sensor>
+            <bodyName>base_footprint</bodyName>
+            <topicName>/virat/gps/fix</topicName>
+            <velocityTopicName>/virat/gps/fix_velocity</velocityTopicName>
+            <drift>5.0 5.0 5.0</drift>
+            <gaussianNoise>0.1 0.1 0.1</gaussianNoise>
+            <velocityDrift>0 0 0</velocityDrift>
+            <velocityGaussianNoise>0.1 0.1 0.1</velocityGaussianNoise>
+        </plugin>
     </gazebo>
 
     <gazebo reference="imu_link">
