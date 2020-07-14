@@ -1,0 +1,21 @@
+<launch>
+  <!-- Launches an arbitrary world with or without gazebo gui -->
+  <arg name="gazebo_gui" default="0"/>
+  <arg name="world" default="igvc_ramp"/>
+  
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find virat_gazebo)/worlds/$(arg world).world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="$(arg gazebo_gui)"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <include file="$(find virat_gazebo)/launch/spawn_virat.launch">
+    <arg name="x" default="-3"/>
+    <arg name="y" default="18"/>
+    <arg name="z" default="0.4"/>
+    <arg name="yaw" default="3"/>
+  </include>
+</launch>
