@@ -3,11 +3,11 @@
 
     <gazebo>
         <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
-            <commandTopic>/virat/cmd_vel</commandTopic>
-            <odometryTopic>/virat/odom</odometryTopic>
+            <commandTopic>cmd_vel</commandTopic>
+            <odometryTopic>odom</odometryTopic>
             <odometryFrame>odom</odometryFrame>
             <odometrySource>world</odometrySource>
-            <publishOdomTF>true</publishOdomTF>
+            <publishOdomTFala>true</publishOdomTFala>
             <robotBaseFrame>base_footprint</robotBaseFrame>
             <publishWheelTF>false</publishWheelTF>
             <publishTf>true</publishTf>
@@ -43,7 +43,7 @@
             <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
                 <alwaysOn>true</alwaysOn>
                 <updateRate>0.0</updateRate>
-                <cameraName>virat/right_camera</cameraName>
+                <cameraName>camera/right</cameraName>
                 <imageTopicName>image_raw</imageTopicName>
                 <cameraInfoTopicName>camera_info</cameraInfoTopicName>
                 <frameName>right_camera</frameName>
@@ -76,7 +76,7 @@
             <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
                 <alwaysOn>true</alwaysOn>
                 <updateRate>0.0</updateRate>
-                <cameraName>/camera_topic/left</cameraName>
+                <cameraName>camera/left</cameraName>
                 <imageTopicName>image_raw</imageTopicName>
                 <cameraInfoTopicName>camera_info</cameraInfoTopicName>
                 <frameName>left_camera</frameName>

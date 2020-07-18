@@ -11,11 +11,4 @@
     <arg name="headless" value="false"/>
     <arg name="debug" value="false"/>
   </include>
-
-  <include file="$(find virat_gazebo)/launch/spawn_virat.launch">
-    <arg name="x" default="-3"/>
-    <arg name="y" default="18"/>
-    <arg name="z" default="0.4"/>
-    <arg name="yaw" default="3"/>
-  </include>
 </launch>
