@@ -1,8 +1,8 @@
 <launch>
   <!-- Launches an arbitrary world with or without gazebo gui -->
-  <arg name="gazebo_gui" default="0"/>
+  <arg name="gazebo_gui" default="false"/>
   <arg name="world" default="igvc_ramp"/>
-  
+
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find virat_gazebo)/worlds/$(arg world).world"/>
     <arg name="paused" value="false"/>
